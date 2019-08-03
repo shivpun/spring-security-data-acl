@@ -1,0 +1,1 @@
+INSERT INTO ACL_USER (user_id, username, password) VALUES(1, 'admin', '{noop}admin');
