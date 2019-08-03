@@ -1,4 +1,4 @@
-package org.springframework.security.data.acl;
+package org.springframework.security.data.acl.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
