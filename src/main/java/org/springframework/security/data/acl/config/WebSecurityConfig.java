@@ -56,6 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public UserDetailsManager userDetailsManager(@Autowired AclUserRepository aclUserRepository) {
-		return new AclJpaUserDetailsManager();
+		return new AclJpaUserDetailsManager(aclUserRepository);
 	}
 }
