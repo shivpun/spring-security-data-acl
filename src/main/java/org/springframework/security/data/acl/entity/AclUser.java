@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,10 +28,8 @@ public class AclUser implements Serializable {
 	@SequenceGenerator(name = "acl_user_id", sequenceName = "acl_user_id_seq")
 	private Integer userId;
 
-	@Column(name = "username")
 	private String name;
 
-	@Column(name = "password")
 	private String password;
 
 	@ManyToMany

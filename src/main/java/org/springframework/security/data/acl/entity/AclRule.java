@@ -2,6 +2,7 @@ package org.springframework.security.data.acl.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,9 @@ public class AclRule implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "entityId", nullable = false)
 	private AclEntity aclEntity;
+
+	@Embedded
+	private CurdAccess curdAccess;
 
 	public AclRule() {
 	}
@@ -73,5 +77,13 @@ public class AclRule implements Serializable {
 
 	public void setAclEntity(AclEntity aclEntity) {
 		this.aclEntity = aclEntity;
+	}
+
+	public CurdAccess getCurdAccess() {
+		return curdAccess;
+	}
+
+	public void setCurdAccess(CurdAccess curdAccess) {
+		this.curdAccess = curdAccess;
 	}
 }
