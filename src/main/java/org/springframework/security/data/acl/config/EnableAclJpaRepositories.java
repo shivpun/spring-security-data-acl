@@ -18,13 +18,15 @@ import org.springframework.data.repository.config.BootstrapMode;
 import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(AclJpaRepositoriesRegistrar.class)
+@Import(value = { AclJpaRepositoriesRegistrar.class, WebSecurityConfiguration.class,
+		AclJpaSpringWebMvcImportSelector.class })
 public @interface EnableAclJpaRepositories {
 	/**
 	 * Alias for the {@link #basePackages()} attribute. Allows for more concise
