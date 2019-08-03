@@ -18,9 +18,9 @@ import org.springframework.security.provisioning.UserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebAclJpaSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebAclJpaSecurityConfig.class);
 
 	@Autowired
 	private UserDetailsManager userDetailsService;

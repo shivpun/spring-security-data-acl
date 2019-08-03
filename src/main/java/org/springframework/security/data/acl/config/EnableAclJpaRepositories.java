@@ -13,6 +13,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.support.AclJpaRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.data.repository.config.BootstrapMode;
 import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
@@ -94,7 +95,7 @@ public @interface EnableAclJpaRepositories {
 	 *
 	 * @return
 	 */
-	Class<?> repositoryFactoryBeanClass() default JpaRepositoryFactoryBean.class;
+	Class<?> repositoryFactoryBeanClass() default AclJpaRepositoryFactoryBean.class;
 
 	/**
 	 * Configure the repository base class to be used to create repository proxies
