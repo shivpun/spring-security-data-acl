@@ -20,11 +20,17 @@ public class QueryBuilder {
 
 	private List<Predicate> predicates;
 
+	private List<Predicate> rhs;
+
+	private List<Predicate> lhs;
+
 	public QueryBuilder(Root<Object> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
 		this.root = root;
 		this.cq = cq;
 		this.cb = cb;
 		this.predicates = new ArrayList<Predicate>();
+		this.rhs = new ArrayList<Predicate>();
+		this.lhs = new ArrayList<Predicate>();
 	}
 
 	public Predicate condition(String field, String condition, Object value) {
@@ -39,6 +45,7 @@ public class QueryBuilder {
 			predicate = cb.equal(root.get(field), value);
 			break;
 		case "<>":
+			System.out.println("TEST!!:"+value.getClass());
 			// add(cb.notEqual(root.get(field), value));
 			predicate = cb.notEqual(root.get(field), value);
 			break;
@@ -60,6 +67,7 @@ public class QueryBuilder {
 			break;
 		case ">":
 			// add(cb.gt(root.get(field), value));
+			//predicate = cb.greaterThan(root.get(field).as(Long.class), value);
 			break;
 		}
 		return predicate;
@@ -67,15 +75,36 @@ public class QueryBuilder {
 
 	public Predicate andOR(String condition, Predicate... predicates) {
 		Predicate predicate = null;
-		switch (condition.toUpperCase()) {
-		case "OR":
-			predicate = cb.or(predicates);
-			break;
+		switch (condition) {
 		case "AND":
 			predicate = cb.and(predicates);
 			break;
+		case "OR":
+			predicate = cb.or(predicates);
+			break;
 		}
 		return predicate;
+	}
+
+	public Predicate andOR(String condition, Predicate rhs, Predicate lhs) {
+		Predicate predicate = null;
+		switch (condition) {
+		case "AND":
+			predicate = cb.and(rhs, lhs);
+			break;
+		case "OR":
+			predicate = cb.or(rhs, lhs);
+			break;
+		}
+		return predicate;
+	}
+
+	public void and() {
+		if (!CollectionUtils.isEmpty(this.rhs) && !CollectionUtils.isEmpty(this.lhs)) {
+			Predicate predicate = cb.and(this.rhs.get(0), this.lhs.get(0));
+			reset();
+			add(predicate);
+		}
 	}
 
 	public void add(Predicate predicate) {
@@ -86,10 +115,30 @@ public class QueryBuilder {
 		this.predicates = new ArrayList<Predicate>();
 	}
 
+	public void storeRHS() {
+		if (!CollectionUtils.isEmpty(this.predicates)) {
+			this.rhs = this.predicates;
+			reset();
+		}
+	}
+
+	public void storeLHS() {
+		if (!CollectionUtils.isEmpty(this.predicates)) {
+			this.lhs = this.predicates;
+		}
+	}
+
 	public Predicate[] predicates() {
 		if (CollectionUtils.isEmpty(this.predicates)) {
 			return new Predicate[0];
 		}
 		return this.predicates.toArray(new Predicate[this.predicates.size()]);
+	}
+
+	public Predicate predicate() {
+		if (CollectionUtils.isEmpty(this.predicates)) {
+			return null;
+		}
+		return predicates()[0];
 	}
 }

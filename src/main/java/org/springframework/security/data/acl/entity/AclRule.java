@@ -28,9 +28,17 @@ public class AclRule implements Serializable {
 	private String domain;
 
 	@ManyToOne
-	@JoinColumn(name = "entityId", nullable = false)
+	@JoinColumn(name = "entity_Id", nullable = false)
 	private AclEntity aclEntity;
-
+	
+	private boolean gobal = true;
+	
+	/*
+	 * CurdAccess applied during CURD operation like create, update, read, delete
+	 * For Example:
+	 * Case 1:
+	 * Apply Rule to read i.e. to view only operations, than use create=0, update=0, read=1, delete=0
+	 */
 	@Embedded
 	private CurdAccess curdAccess;
 
@@ -38,6 +46,7 @@ public class AclRule implements Serializable {
 	}
 
 	private AclRule(String name, String domain, AclEntity aclEntity) {
+		this();
 		this.name = name;
 		this.domain = domain;
 		this.aclEntity = aclEntity;
@@ -85,5 +94,13 @@ public class AclRule implements Serializable {
 
 	public void setCurdAccess(CurdAccess curdAccess) {
 		this.curdAccess = curdAccess;
+	}
+
+	public boolean isGobal() {
+		return gobal;
+	}
+
+	public void setGobal(boolean gobal) {
+		this.gobal = gobal;
 	}
 }

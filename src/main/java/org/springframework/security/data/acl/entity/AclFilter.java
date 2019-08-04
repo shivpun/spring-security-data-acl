@@ -2,6 +2,7 @@ package org.springframework.security.data.acl.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,15 @@ public class AclFilter implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "entity_Id", nullable = false)
 	private AclEntity aclEntity;
+	
+	/*
+	 * CurdAccess applied during CURD operation like create, update, read, delete
+	 * For Example:
+	 * Case 1:
+	 * Apply Rule to read i.e. to view only operations, than use create=0, update=0, read=1, delete=0
+	 */
+	@Embedded
+	private CurdAccess curdAccess;
 	
 	public Integer getFilterId() {
 		return filterId;
@@ -80,5 +90,13 @@ public class AclFilter implements Serializable {
 
 	public void setAclEntity(AclEntity aclEntity) {
 		this.aclEntity = aclEntity;
+	}
+
+	public CurdAccess getCurdAccess() {
+		return curdAccess;
+	}
+
+	public void setCurdAccess(CurdAccess curdAccess) {
+		this.curdAccess = curdAccess;
 	}
 }

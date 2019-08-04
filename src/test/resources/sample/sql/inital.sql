@@ -41,12 +41,23 @@ INSERT INTO acl_user_group_rel (user_id, group_id) VALUES (3, 3);
 /*
 RULE
 */
-INSERT INTO ACL_RULE (rule_id, name, domain, entity_id, create, update, read, delete) VALUES (1, 'Active Product', '{{''active'', ''isTrue''}}', 9, 0, 0, 1, 0); 
+INSERT INTO ACL_RULE (rule_id, name, domain, entity_id, gobal, create, update, read, delete) VALUES (1, 'Active Product', '{{''active'', ''isTrue''}}', 9, 1, 0, 0, 1, 0); 
+INSERT INTO ACL_RULE (rule_id, name, domain, entity_id, gobal, create, update, read, delete) VALUES (2, 'Mango Product', '{{''name'', ''='', ''Mango''}}', 9, 0, 0, 0, 1, 0); 
+INSERT INTO ACL_RULE (rule_id, name, domain, entity_id, gobal, create, update, read, delete) VALUES (3, 'AND and OR Product', '{{{''active'', ''isTrue''},''OR'',{''name'', ''='', ''Mango''}}, ''AND'', {''id'',''='',''0''}}', 9, 0, 0, 0, 1, 0); 
 
 /*
 GROUP-RULE
 */
-INSERT INTO acl_group_rule_rel (group_id, rule_id) VALUES (3, 1);
+INSERT INTO acl_group_rule_rel (group_id, rule_id) VALUES (2, 3);
 
+/*
+FILTER
+*/
+INSERT INTO ACL_FILTER (filter_id, name, domain, entity_id, create, update, read, delete) VALUES (1, 'Fetch Product 1', '{{''name'',''='', ''Cycle''}}', 9, 0,0,1,0);
+
+/*
+USER-FILTER
+*/
+INSERT INTO acl_user_filter_rel (user_id, filter_id) VALUES (3, 1);
 
 commit;
