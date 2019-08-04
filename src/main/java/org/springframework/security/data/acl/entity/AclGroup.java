@@ -52,6 +52,7 @@ public class AclGroup implements Serializable {
 	}
 
 	private AclGroup(String name, Module module, CurdAccess curdAccess) {
+		this();
 		this.name = name;
 		this.module = module;
 		this.curdAccess = curdAccess;

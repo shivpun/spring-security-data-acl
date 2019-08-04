@@ -26,10 +26,14 @@ final class AclJpaEntityFactory {
 	public List<FilterRule> fetchFilterRule(String domain, String operation) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) authentication.getDetails();
-		String query = String.format(QueryConstant.FETCH_FILTER_RULE, operation);
-		Query q = this.em.createNativeQuery(query, FilterRule.class);
+		Long userId = user.getUserId();
+		String groupQuery = String.format(QueryConstant.FETCH_USER_RULE, operation);
+		String filterQuery = String.format(QueryConstant.FETCH_USER_FILTER, operation);
+		Query q = this.em.createNativeQuery("( "+filterQuery +" ) UNION ("+groupQuery+" )", FilterRule.class);
 		q.setParameter(1, domain);
-		q.setParameter(2, user.getUserId());
+		q.setParameter(2, userId);
+		q.setParameter(3, domain);
+		q.setParameter(4, userId);
 		List<FilterRule> filterRules = q.getResultList();
 		return filterRules;
 	}
