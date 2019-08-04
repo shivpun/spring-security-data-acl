@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,9 +24,11 @@ public class AclAccess implements Serializable {
 	private Integer accessId;
 
 	@ManyToOne
+	@JoinColumn(name = "entity_Id", nullable = false)
 	private AclEntity aclEntity;
 
 	@ManyToOne
+	@JoinColumn(name = "group_Id", nullable = true)
 	private AclGroup aclGroup;
 
 	@Embedded

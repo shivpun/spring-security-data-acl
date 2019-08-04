@@ -15,10 +15,13 @@ public class AclJpaRepositoryFactory extends JpaRepositoryFactory {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AclJpaRepositoryFactory.class);
 
 	private AclJpaSpecification<Object> aclJpaSpecification;
+	
+	private String application;
 
-	public AclJpaRepositoryFactory(EntityManager entityManager, AclJpaSpecification<Object> specification) {
+	public AclJpaRepositoryFactory(EntityManager entityManager, AclJpaSpecification<Object> specification, String application) {
 		super(entityManager);
 		this.aclJpaSpecification = specification;
+		this.application = application;
 	}
 
 	@Override
@@ -35,7 +38,9 @@ public class AclJpaRepositoryFactory extends JpaRepositoryFactory {
 		JpaRepositoryImplementation<?, ?> repository = super.getTargetRepository(information, entityManager);
 		if (isAcl(information)) {
 			LOGGER.info(String.format("AclJpaRepository has been found in [%s]", information.getRepositoryInterface()));
-			((SimpleAclJpaRepository<?, ?>) repository).setAclJpaSpecification(aclJpaSpecification);
+			SimpleAclJpaRepository<?, ?> simpleAclJpaRepository = ((SimpleAclJpaRepository<?, ?>) repository);
+			simpleAclJpaRepository.setAclJpaSpecification(aclJpaSpecification);
+			simpleAclJpaRepository.setApplication(application);
 		}
 		return repository;
 
