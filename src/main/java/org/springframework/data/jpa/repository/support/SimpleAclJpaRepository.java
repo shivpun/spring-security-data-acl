@@ -34,6 +34,8 @@ public class SimpleAclJpaRepository<T, ID> extends SimpleJpaRepository<T, ID> im
 	private @Nullable CrudMethodMetadata metadata;
 
 	private final EntityManager em;
+	
+	private String application;
 
 	public SimpleAclJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager em) {
 		super(entityInformation, em);
@@ -74,7 +76,7 @@ public class SimpleAclJpaRepository<T, ID> extends SimpleJpaRepository<T, ID> im
 	 * @see org.springframework.data.repository.CrudRepository#findAll()
 	 */
 	public List<T> findAll() {
-		AclJpaEntityFactory aclJpaEntityFactory = new AclJpaEntityFactory(em, metadata);
+		AclJpaEntityFactory aclJpaEntityFactory = AclJpaEntityFactory.of(em, metadata, application);
 		List<FilterRule> filterRules = aclJpaEntityFactory.read(getDomainClass());
 		return getQuery(aclJpaSpecification, Sort.unsorted(), filterRules).getResultList();
 	}
@@ -207,4 +209,11 @@ public class SimpleAclJpaRepository<T, ID> extends SimpleJpaRepository<T, ID> im
 		return getQuery(spec, getDomainClass(), filterRules, sort);
 	}
 
+	public String getApplication() {
+		return application;
+	}
+
+	public void setApplication(String application) {
+		this.application = application;
+	}
 }

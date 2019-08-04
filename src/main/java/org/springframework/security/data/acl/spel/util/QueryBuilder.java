@@ -8,6 +8,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.data.acl.constant.QueryConstant;
+import org.springframework.security.data.acl.model.User;
 import org.springframework.util.CollectionUtils;
 
 public class QueryBuilder {
@@ -23,6 +27,8 @@ public class QueryBuilder {
 	private List<Predicate> rhs;
 
 	private List<Predicate> lhs;
+	
+	private User user;
 
 	public QueryBuilder(Root<Object> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
 		this.root = root;
@@ -45,7 +51,7 @@ public class QueryBuilder {
 			predicate = cb.equal(root.get(field), value);
 			break;
 		case "<>":
-			System.out.println("TEST!!:"+value.getClass());
+			System.out.println("TEST!!:" + value.getClass());
 			// add(cb.notEqual(root.get(field), value));
 			predicate = cb.notEqual(root.get(field), value);
 			break;
@@ -67,7 +73,7 @@ public class QueryBuilder {
 			break;
 		case ">":
 			// add(cb.gt(root.get(field), value));
-			//predicate = cb.greaterThan(root.get(field).as(Long.class), value);
+			// predicate = cb.greaterThan(root.get(field).as(Long.class), value);
 			break;
 		}
 		return predicate;
@@ -140,5 +146,20 @@ public class QueryBuilder {
 			return null;
 		}
 		return predicates()[0];
+	}
+	
+	public QueryBuilder user(User user) {
+		this.user = user;
+		return this;
+	}
+
+	public Object values(Object value) {
+		if(value!=null && QueryConstant.LOGIN_USER_ID.equals(value)) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) authentication.getDetails();
+			Long userId = user.getUserId();
+			return userId;
+		}
+		return value;
 	}
 }

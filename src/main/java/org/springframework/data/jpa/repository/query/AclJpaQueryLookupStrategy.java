@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
  */
 public final class AclJpaQueryLookupStrategy {
 
-	private static Logger LOG = LoggerFactory.getLogger(AclJpaQueryLookupStrategy.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(AclJpaQueryLookupStrategy.class);
 
 	/**
 	 * Private constructor to prevent instantiation.
@@ -96,12 +96,12 @@ public final class AclJpaQueryLookupStrategy {
 			 * noAclMethod = method.getDeclaredAnnotation(NoAcl.class);
 			 */
 			boolean needAcl = true;
-
+			LOGGER.info("Acl Jpa resolveQuery | metadata");
 			RepositoryQuery query = resolveQuery(new JpaQueryMethod(method, metadata, factory, provider), em,
 					namedQueries, needAcl);
 
 			if (needAcl && !(query instanceof PartTreeAclJpaQuery)) {
-				LOG.error(
+				LOGGER.error(
 						"Unsupported repository method '{}'. Acl was not activated for this method! Use @NoAcl annotation on the method for preventing this error message.",
 						method);
 			}

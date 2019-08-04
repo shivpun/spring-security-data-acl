@@ -60,4 +60,10 @@ USER-FILTER
 */
 INSERT INTO acl_user_filter_rel (user_id, filter_id) VALUES (3, 1);
 
+/*
+ACCESS
+*/
+INSERT INTO ACL_ACCESS  (ACCESS_ID, ENTITY_ID, GROUP_ID, create, update, read, delete) VALUES (1, 9, 2, 1,1,1,1);
+INSERT INTO ACL_ACCESS  (ACCESS_ID, ENTITY_ID, GROUP_ID, create, update, read, delete) VALUES (2, 9, null, 0, 0,1,0);
+
 commit;
