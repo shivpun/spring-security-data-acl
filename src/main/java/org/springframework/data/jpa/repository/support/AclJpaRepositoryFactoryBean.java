@@ -10,11 +10,10 @@ import org.springframework.security.data.acl.specification.AclJpaSpecification;
 public class AclJpaRepositoryFactoryBean<T extends Repository<S, ID>, S, ID> extends JpaRepositoryFactoryBean<T, S, ID> {
 
 	private AclJpaSpecification<Object> aclJpaSpecification;
-	
-	@Value(value = "${spring.application.name}")
+
 	private String application;
 
-	public AclJpaRepositoryFactoryBean(Class<? extends T> repositoryInterface, AclJpaSpecification<Object> aclJpaSpecification, @Value(value = "${spring.application.name}") String application) {
+	public AclJpaRepositoryFactoryBean(Class<? extends T> repositoryInterface, AclJpaSpecification<Object> aclJpaSpecification,	@Value(value = "${spring.application.name}") String application) {
 		super(repositoryInterface);
 		this.aclJpaSpecification = aclJpaSpecification;
 		this.application = application;
